@@ -1,0 +1,5 @@
+---
+nginx_home: "{{ app_home_dir }}/nginx-docker"
+nginx_conf: "{{ nginx_home }}/conf"
+nginx_cert: "{{ nginx_home }}/cert"
+nginx_logs: "{{ app_logs_dir }}/nginx"

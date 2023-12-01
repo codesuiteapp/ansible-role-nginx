@@ -1,0 +1,39 @@
+---
+- name: Creates directory
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ adm_user }}"
+    group: "{{ adm_group }}"
+    mode: '0775'
+    force: false
+  with_items:
+    - "{{ nginx_home }}"
+    - "{{ nginx_home }}/html"
+    - "{{ nginx_logs }}"
+
+- name: Copy nginx conf
+  ansible.builtin.copy:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    mode: '0644'
+    owner: "{{ adm_user }}"
+    group: "{{ adm_group }}"
+  with_items:
+    - { src: 'conf', dest: '{{ nginx_home }}' }
+    # - { src: 'cert', dest: '{{ nginx_home }}' }
+    # - { src: 'nginx/', dest: '{{ nginx_conf }}/sites-enabled' }
+
+- name: Copy file
+  ansible.builtin.template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    owner: "{{ adm_user }}"
+    group: "{{ adm_group }}"
+    mode: '0644'
+    backup: true
+  with_items:
+    - { src: '.env.j2', dest: '{{ nginx_home }}/.env' }
+    - { src: 'docker-compose.yml.j2', dest: '{{ nginx_home }}/docker-compose.yml' }
+  notify:
+    Restart nginx

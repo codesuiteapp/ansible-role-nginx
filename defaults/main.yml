@@ -1,0 +1,22 @@
+---
+image_registry_server: "docker.io"
+nginx_image: "library/nginx"
+nginx_ver: "latest"
+nginx_port: 8080
+
+docker_compose_bin: "docker-compose"
+use_dkr_net: false
+dkr_network: devops_net
+use_extra_hosts: false
+add_etc_host: "10.11.22.10   devops.com"
+
+app_home_dir: /app
+app_data_dir: /data
+nginx_http_port: 8080
+nginx_https_port: 8443
+nginx_log_dir: "/var/log/nginx"
+
+create_user: false
+adm_user: "appadm"
+adm_group: "appadm"
+adm_uid: "1000"
