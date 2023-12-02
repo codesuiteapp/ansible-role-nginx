@@ -14,3 +14,17 @@ services:
       - ./conf/nginx.conf:/etc/nginx/nginx.conf
       - ./conf/sites-enabled:/etc/nginx/conf.d
     restart: unless-stopped
+{% if use_extra_hosts %}
+    extra_hosts:
+    {% for host in extra_hosts %}
+    - {{ host }}
+    {% endfor %}
+{% endif %}
+{% if use_dkr_net %}
+    networks:
+      - {{ dkr_network }}
+
+networks:
+  {{ dkr_network }}:
+    external: true
+{% endif %}
