@@ -15,9 +15,26 @@ add_etc_host: "10.11.22.10   devops.com"
 app_home_dir: /app
 app_data_dir: /data
 app_logs_dir: /log
+
 nginx_http_port: 8080
 nginx_https_port: 8443
 nginx_log_dir: "/var/log/nginx"
+
+use_jenkins: false
+jenkins_port: 9753
+jenkins_url: "http://localhost:{{ jenkins_port }}/jenkins"
+
+use_awx: false
+awx_url: "http://localhost:7080/"
+
+use_nexus: false
+nexus_url: "http://localhost:8081/nexus"
+
+use_gitlab: false
+gitlab_url: "http://localhost:9999/gitlab"
+
+use_grafana: false
+grafana_url: "http://localhost:3000/grafana"
 
 create_user: false
 adm_user: "appadm"
