@@ -23,9 +23,11 @@ nginx_log_dir: "/var/log/nginx"
 use_jenkins: false
 jenkins_port: 9753
 jenkins_url: "http://localhost:{{ jenkins_port }}/jenkins"
+redirect_jenkins_url: "http://cicd.sto-devops.koscom.co.kr:8080"
 
 use_awx: false
-awx_url: "http://localhost:7080/"
+awx_url: "http://localhost:8888/"
+awx_domain_name: "awx.sto-devops.koscom.co.kr"
 
 use_nexus: false
 nexus_url: "http://localhost:8081/nexus"
