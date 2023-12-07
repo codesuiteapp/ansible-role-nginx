@@ -83,6 +83,15 @@ server {
     }
 {% endif %}
 
+{% if use_heimdall %}
+    location /heimdall {
+        proxy_pass {{ heimdall_url }};
+        charset utf-8;
+
+        proxy_set_header        X-Forwarded-Host $host;
+    }
+{% endif %}
+
     #error_page  404              /404.html;
 
     # redirect server error pages to the static page /50x.html
