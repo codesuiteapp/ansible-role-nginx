@@ -38,6 +38,6 @@
     - { src: 'default.conf.j2', dest: '{{ nginx_conf }}/sites-enabled/default.conf' }
 
 - name: Restart nginx
-  shell: echo success
+  ansible.builtin.shell: echo success
   notify:
     Restart nginx
