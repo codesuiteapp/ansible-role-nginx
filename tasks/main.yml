@@ -36,3 +36,8 @@
     - { src: '.env.j2', dest: '{{ nginx_home }}/.env' }
     - { src: 'docker-compose.yml.j2', dest: '{{ nginx_home }}/docker-compose.yml' }
     - { src: 'default.conf.j2', dest: '{{ nginx_conf }}/sites-enabled/default.conf' }
+
+- name: Restart nginx
+  shell: echo success
+  notify:
+    Restart nginx
