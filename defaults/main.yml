@@ -46,6 +46,9 @@ grafana_url: "http://localhost:3000/grafana"
 use_heimdall: true
 heimdall_url: "http://localhost:56780/"
 
+use_jira: false
+jira_url: "http://localhost:8080/jira"
+
 create_user: false
 adm_user: "appadm"
 adm_group: "appadm"
