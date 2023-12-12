@@ -50,6 +50,10 @@ heimdall_url: "http://localhost:56780/"
 use_jira: false
 jira_url: "http://localhost:8080/jira"
 
+use_dev_ui: false
+ui_domain_name: "ui.sto-devops.koscom.co.kr"
+ui_url: "http://localhost:18080"
+
 create_user: false
 adm_user: "appadm"
 adm_group: "appadm"
