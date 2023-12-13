@@ -36,6 +36,7 @@ awx_domain_name: "awx.sto-devops.koscom.co.kr"
 
 use_argocd: false
 argocd_url: "http://localhost:80/argocd"
+argocd_domain: "argocd-eksd.sto.koscom.co.kr"
 
 use_nexus: false
 nexus_url: "http://localhost:8081/nexus"
