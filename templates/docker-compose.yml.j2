@@ -4,6 +4,8 @@ services:
     image: ${DOCKER_IMAGE}
     container_name: nginx
     user: root
+    environment:
+      - TZ=Asia/Seoul
     ports:
       - "{{ nginx_http_port }}:8080"
       - "{{ nginx_https_port }}:8443"
