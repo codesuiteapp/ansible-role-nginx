@@ -5,9 +5,9 @@ server {
 
     # proxy_set_header Host $http_host;
     proxy_set_header Host $host;
-    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header X-Real-IP          $remote_addr;
+    proxy_set_header X-Forwarded-For    $proxy_add_x_forwarded_for;
     proxy_set_header X-Forwarded-Server $host;
-    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
 
     add_header X-Frame-Options "SAMEORIGIN";
     add_header X-XSS-Protection "1; mode=block";
@@ -39,7 +39,7 @@ server {
         proxy_redirect          off;
         proxy_set_header        Host {{ argocd_domain }};
         proxy_set_header        X-Real-IP $remote_addr;
-        proxy_set_header        X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header        X-Forwarded-For  $proxy_add_x_forwarded_for;
         proxy_set_header        X-Forwarded-Host $host;
         proxy_set_header        X-Forwarded-Port $server_port;
     }
@@ -53,7 +53,7 @@ server {
         {# proxy_redirect          http://localhost:{{ jenkins_port }} {{ redirect_jenkins_url }}; #}
         proxy_set_header        Host $http_host;
         proxy_set_header        X-Real-IP $remote_addr;
-        proxy_set_header        X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header        X-Forwarded-For   $proxy_add_x_forwarded_for;
         proxy_set_header        X-Forwarded-Proto $scheme;
         proxy_set_header        X-Forwarded-Port  $server_port;
         proxy_set_header        X-Frame-Options   SAMEORIGIN;
@@ -67,7 +67,7 @@ server {
 
         proxy_set_header        Host $http_host;
         proxy_set_header        X-Real-IP $remote_addr;
-        proxy_set_header        X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header        X-Forwarded-For   $proxy_add_x_forwarded_for;
         proxy_set_header        X-Forwarded-Proto $scheme;
         proxy_set_header        X-Forwarded-Port  $server_port;
     }
@@ -80,7 +80,7 @@ server {
 
         proxy_set_header        Host $host;
         proxy_set_header        X-Real-IP $remote_addr;
-        proxy_set_header        X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header        X-Forwarded-For  $proxy_add_x_forwarded_for;
         proxy_set_header        X-Forwarded-Host $host;
         proxy_set_header        X-Forwarded-Port $server_port;
     }
@@ -95,8 +95,9 @@ server {
         proxy_redirect          {{ redirect_gitlab_url }} {{ redirect_gitlab_url }}:8080;
         proxy_set_header        Host $host;
         proxy_set_header        X-Real-IP $remote_addr;
-        proxy_set_header        X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header        X-Forwarded-For  $proxy_add_x_forwarded_for;
         proxy_set_header        X-Forwarded-Host $host;
+        proxy_set_header        X-Forwarded-Port $server_port;
     }
 {% endif %}
 
@@ -107,8 +108,9 @@ server {
 
         proxy_set_header        Host $host;
         proxy_set_header        X-Real-IP $remote_addr;
-        proxy_set_header        X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header        X-Forwarded-For  $proxy_add_x_forwarded_for;
         proxy_set_header        X-Forwarded-Host $host;
+        proxy_set_header        X-Forwarded-Port $server_port;
     }
 {% endif %}
 
@@ -119,8 +121,23 @@ server {
 
         proxy_set_header        Host $host;
         proxy_set_header        X-Real-IP $remote_addr;
-        proxy_set_header        X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header        X-Forwarded-For  $proxy_add_x_forwarded_for;
         proxy_set_header        X-Forwarded-Host $host;
+        proxy_set_header        X-Forwarded-Port $server_port;
+    }
+
+    location /grafana/api {
+        proxy_pass {{ grafana_url }}/api;
+        charset utf-8;
+
+        proxy_set_header        Host $host;
+        proxy_set_header        X-Real-IP $remote_addr;
+        proxy_set_header        X-Forwarded-For  $proxy_add_x_forwarded_for;
+        proxy_set_header        X-Forwarded-Host $host;
+        proxy_set_header        X-Forwarded-Port $server_port;
+        proxy_set_header        Upgrade $http_upgrade;
+        proxy_set_header        Connection $connection_upgrade;
+        proxy_http_version      1.1;
     }
 {% endif %}
 
@@ -142,9 +159,9 @@ server {
 
     # proxy_set_header Host $http_host;
     proxy_set_header Host $host;
-    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header X-Real-IP          $remote_addr;
     proxy_set_header X-Forwarded-Server $host;
-    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header X-Forwarded-For    $proxy_add_x_forwarded_for;
 
     access_log  /var/log/nginx/heimdall.access.log  main;
 
@@ -182,9 +199,9 @@ server {
 
     # proxy_set_header Host $http_host;
     proxy_set_header Host $host;
-    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header X-Real-IP          $remote_addr;
+    proxy_set_header X-Forwarded-For    $proxy_add_x_forwarded_for;
     proxy_set_header X-Forwarded-Server $host;
-    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
 
     access_log  /var/log/nginx/awx.access.log  main;
 
@@ -204,7 +221,7 @@ server {
         charset utf-8;
 
         proxy_set_header        X-Forwarded-Host $host;
-        proxy_set_header        X-Forwarded-Port  $server_port;
+        proxy_set_header        X-Forwarded-Port $server_port;
     }
 
     error_page   500 502 503 504  /50x.html;
@@ -214,18 +231,17 @@ server {
 
 }
 {% endif %}
-
+{#
 {% if use_dev_ui %}
 server {
     listen                      {{ nginx_http_port }};
     server_name                 {{ ui_domain_name }};
     # server_name                 127.0.0.1;
 
-    # proxy_set_header Host $http_host;
     proxy_set_header Host $host;
-    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header X-Real-IP          $remote_addr;
+    proxy_set_header X-Forwarded-For    $proxy_add_x_forwarded_for;
     proxy_set_header X-Forwarded-Server $host;
-    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
 
     access_log  /var/log/nginx/ui.access.log  main;
 
@@ -236,7 +252,8 @@ server {
 
     location /healthcheck {
         access_log off;
-        return 200 "{ OK }\n";
+        add_header 'Content-Type' 'application/json';
+        return 200 '{"status":"Healthy"}';
     }
 
     location / {
@@ -244,7 +261,7 @@ server {
         charset utf-8;
 
         proxy_set_header        X-Forwarded-Host $host;
-        proxy_set_header        X-Forwarded-Port  $server_port;
+        proxy_set_header        X-Forwarded-Port $server_port;
     }
 
     error_page   500 502 503 504  /50x.html;
@@ -254,3 +271,4 @@ server {
 
 }
 {% endif %}
+#}
