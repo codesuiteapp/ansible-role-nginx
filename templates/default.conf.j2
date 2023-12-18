@@ -106,7 +106,7 @@ server {
         charset utf-8;
 
         proxy_redirect          off;
-        proxy_set_header        Host {{ argocd_domain }};
+        proxy_set_header        Host "{{ argocd_domain }}";
         proxy_set_header        X-Real-IP $remote_addr;
         proxy_set_header        X-Forwarded-For  $proxy_add_x_forwarded_for;
         proxy_set_header        X-Forwarded-Host $host;
@@ -119,7 +119,7 @@ server {
         proxy_pass {{ grafana_url }}/api;
         charset utf-8;
 
-        proxy_set_header        Host {{ grafana_domain }};
+        proxy_set_header        Host "{{ grafana_domain }}";
         proxy_set_header        X-Real-IP $remote_addr;
         proxy_set_header        X-Forwarded-For  $proxy_add_x_forwarded_for;
         proxy_set_header        X-Forwarded-Host $host;
@@ -133,7 +133,7 @@ server {
         proxy_pass {{ grafana_url }};
         charset utf-8;
 
-        proxy_set_header        Host {{ grafana_domain }};
+        proxy_set_header        Host "{{ grafana_domain }}";
         proxy_set_header        X-Real-IP $remote_addr;
         proxy_set_header        X-Forwarded-For  $proxy_add_x_forwarded_for;
         proxy_set_header        X-Forwarded-Host $host;
