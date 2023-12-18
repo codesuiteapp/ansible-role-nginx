@@ -36,7 +36,7 @@ awx_domain_name: "awx.sto-devops.koscom.co.kr"
 
 use_argocd: false
 argocd_url: "http://localhost:80/argocd"
-argocd_domain: "argocd-eksd.sto.koscom.co.kr"
+argocd_domain: "argocd.sto-dev.koscom.co.kr"
 
 use_nexus: false
 nexus_url: "http://localhost:8081/nexus"
@@ -47,6 +47,7 @@ redirect_gitlab_url: "http://cicd.sto-devops.koscom.co.kr"
 
 use_grafana: false
 grafana_url: "http://localhost:3000/grafana"
+grafana_domain: "grafana.sto-dev.koscom.co.kr"
 
 use_heimdall: true
 heimdall_url: "http://localhost:56780/"
