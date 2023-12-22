@@ -8,7 +8,7 @@ upstream {{ upstream_name }} {
 
 server {
     listen                      {{ nginx_http_port }};
-    server_name                 {{ domain_name }} localhost;
+    server_name                 {{ domain_name }};
 
     # proxy_set_header Host $http_host;
     proxy_set_header Host $host;
@@ -24,7 +24,7 @@ server {
     location /server_status {
         access_log off;
         add_header 'Content-Type' 'application/json';
-        return 200 '{"status":"Healthy"}';
+        return 200 '{"status": "Healthy"}';
     }
 
     location /nginx_status {
@@ -35,13 +35,13 @@ server {
     location /healthcheck {
         access_log off;
         add_header 'Content-Type' 'application/json';
-        return 200 '{"status":"Healthy"}';
+        return 200 '{"status": "Healthy"}';
     }
 
 {% if use_biz_batch %}
-    location /batch {
-        proxy_pass {{ biz_batch_url }};
-        charset utf-8;
+    location /stobatch {
+        proxy_pass              {{ biz_batch_url }};
+        charset                 utf-8;
 
         proxy_set_header        Host              "{{ biz_batch_domain }}";
         proxy_set_header        X-Real-IP         $remote_addr;
@@ -53,8 +53,8 @@ server {
 
 {% if use_jenkins %}
     location /jenkins {
-        proxy_pass {{ jenkins_url }};
-        charset utf-8;
+        proxy_pass              {{ jenkins_url }};
+        charset                 utf-8;
 
         # proxy_redirect          http://localhost:{{ jenkins_port }} {{ redirect_jenkins_url }};
         proxy_set_header        Host              $http_host;
@@ -68,8 +68,8 @@ server {
 
 {% if use_batch %}
     location /batch {
-        proxy_pass {{ batch_url }};
-        charset utf-8;
+        proxy_pass              {{ batch_url }};
+        charset                 utf-8;
 
         proxy_set_header        Host              $http_host;
         proxy_set_header        X-Real-IP         $remote_addr;
@@ -81,8 +81,8 @@ server {
 
 {% if use_nexus %}
     location /nexus {
-        proxy_pass {{ nexus_url }};
-        charset utf-8;
+        proxy_pass              {{ nexus_url }};
+        charset                 utf-8;
 
         proxy_set_header        Host             $host;
         proxy_set_header        X-Real-IP        $remote_addr;
@@ -94,8 +94,8 @@ server {
 
 {% if use_gitlab %}
     location /gitlab {
-        proxy_pass {{ gitlab_url }};
-        charset utf-8;
+        proxy_pass              {{ gitlab_url }};
+        charset                 utf-8;
 
         proxy_redirect          http://localhost {{ redirect_gitlab_url }}:8080;
         proxy_redirect          {{ redirect_gitlab_url }} {{ redirect_gitlab_url }}:8080;
@@ -109,8 +109,8 @@ server {
 
 {% if use_jira %}
     location /jira {
-        proxy_pass {{ jira_url }};
-        charset utf-8;
+        proxy_pass              {{ jira_url }};
+        charset                 utf-8;
 
         proxy_set_header        Host             $host;
         proxy_set_header        X-Real-IP        $remote_addr;
@@ -122,8 +122,8 @@ server {
 
 {% if use_argocd %}
     location /argocd {
-        proxy_pass {{ argocd_url }};
-        charset utf-8;
+        proxy_pass              {{ argocd_url }};
+        charset                 utf-8;
 
         proxy_redirect          off;
         proxy_set_header        Host             "{{ argocd_domain }}";
@@ -136,8 +136,8 @@ server {
 
 {% if use_grafana %}
     location /grafana/api {
-        proxy_pass {{ grafana_url }}/api;
-        charset utf-8;
+        proxy_pass              {{ grafana_url }}/api;
+        charset                 utf-8;
 
         proxy_set_header        Host             "{{ grafana_domain }}";
         proxy_set_header        Origin           http://{{ grafana_domain }};
@@ -151,8 +151,8 @@ server {
     }
 
     location /grafana {
-        proxy_pass {{ grafana_url }};
-        charset utf-8;
+        proxy_pass              {{ grafana_url }};
+        charset                 utf-8;
 
         proxy_set_header        Host             "{{ grafana_domain }}";
         proxy_set_header        Origin           http://{{ grafana_domain }};
@@ -196,8 +196,8 @@ server {
     }
 
     location / {
-        proxy_pass {{ heimdall_url }};
-        charset utf-8;
+        proxy_pass              {{ heimdall_url }};
+        charset                 utf-8;
 
         proxy_set_header        X-Forwarded-Host  $host;
         proxy_set_header        X-Forwarded-Port  $server_port;
@@ -232,12 +232,12 @@ server {
     location /healthcheck {
         access_log off;
         add_header 'Content-Type' 'application/json';
-        return 200 '{"status":"Healthy"}';
+        return 200 '{"status": "Healthy"}';
     }
 
     location / {
-        proxy_pass {{ awx_url }};
-        charset utf-8;
+        proxy_pass              {{ awx_url }};
+        charset                 utf-8;
 
         proxy_set_header        X-Forwarded-Host $host;
         proxy_set_header        X-Forwarded-Port $server_port;
@@ -272,12 +272,12 @@ server {
     location /healthcheck {
         access_log off;
         add_header 'Content-Type' 'application/json';
-        return 200 '{"status":"Healthy"}';
+        return 200 '{"status": "Healthy"}';
     }
 
     location / {
-        proxy_pass {{ ui_url }};
-        charset utf-8;
+        proxy_pass              {{ ui_url }};
+        charset                 utf-8;
 
         proxy_set_header        X-Forwarded-Host $host;
         proxy_set_header        X-Forwarded-Port $server_port;
