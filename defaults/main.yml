@@ -20,6 +20,11 @@ nginx_http_port: 8080
 nginx_https_port: 8443
 nginx_log_dir: "/var/log/nginx"
 
+use_upstream: false
+upstream_name: "devops"
+upstream_servers:
+  - 127.0.0.1
+
 use_jenkins: false
 jenkins_port: 9753
 jenkins_url: "http://localhost:{{ jenkins_port }}/jenkins"
