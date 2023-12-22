@@ -1,7 +1,6 @@
 server {
     listen                      {{ nginx_http_port }};
-    server_name                 {{ domain_name }};
-    # server_name                 127.0.0.1;
+    server_name                 {{ domain_name }} localhost;
 
     # proxy_set_header Host $http_host;
     proxy_set_header Host $host;
@@ -36,9 +35,9 @@ server {
         proxy_pass {{ jenkins_url }};
         charset utf-8;
 
-        {# proxy_redirect          http://localhost:{{ jenkins_port }} {{ redirect_jenkins_url }}; #}
-        proxy_set_header        Host $http_host;
-        proxy_set_header        X-Real-IP $remote_addr;
+        # proxy_redirect          http://localhost:{{ jenkins_port }} {{ redirect_jenkins_url }};
+        proxy_set_header        Host              $http_host;
+        proxy_set_header        X-Real-IP         $remote_addr;
         proxy_set_header        X-Forwarded-For   $proxy_add_x_forwarded_for;
         proxy_set_header        X-Forwarded-Proto $scheme;
         proxy_set_header        X-Forwarded-Port  $server_port;
@@ -51,8 +50,8 @@ server {
         proxy_pass {{ batch_url }};
         charset utf-8;
 
-        proxy_set_header        Host $http_host;
-        proxy_set_header        X-Real-IP $remote_addr;
+        proxy_set_header        Host              $http_host;
+        proxy_set_header        X-Real-IP         $remote_addr;
         proxy_set_header        X-Forwarded-For   $proxy_add_x_forwarded_for;
         proxy_set_header        X-Forwarded-Proto $scheme;
         proxy_set_header        X-Forwarded-Port  $server_port;
@@ -64,8 +63,8 @@ server {
         proxy_pass {{ nexus_url }};
         charset utf-8;
 
-        proxy_set_header        Host $host;
-        proxy_set_header        X-Real-IP $remote_addr;
+        proxy_set_header        Host             $host;
+        proxy_set_header        X-Real-IP        $remote_addr;
         proxy_set_header        X-Forwarded-For  $proxy_add_x_forwarded_for;
         proxy_set_header        X-Forwarded-Host $host;
         proxy_set_header        X-Forwarded-Port $server_port;
@@ -79,8 +78,8 @@ server {
 
         proxy_redirect          http://localhost {{ redirect_gitlab_url }}:8080;
         proxy_redirect          {{ redirect_gitlab_url }} {{ redirect_gitlab_url }}:8080;
-        proxy_set_header        Host $host;
-        proxy_set_header        X-Real-IP $remote_addr;
+        proxy_set_header        Host             $host;
+        proxy_set_header        X-Real-IP        $remote_addr;
         proxy_set_header        X-Forwarded-For  $proxy_add_x_forwarded_for;
         proxy_set_header        X-Forwarded-Host $host;
         proxy_set_header        X-Forwarded-Port $server_port;
@@ -92,8 +91,8 @@ server {
         proxy_pass {{ jira_url }};
         charset utf-8;
 
-        proxy_set_header        Host $host;
-        proxy_set_header        X-Real-IP $remote_addr;
+        proxy_set_header        Host             $host;
+        proxy_set_header        X-Real-IP        $remote_addr;
         proxy_set_header        X-Forwarded-For  $proxy_add_x_forwarded_for;
         proxy_set_header        X-Forwarded-Host $host;
         proxy_set_header        X-Forwarded-Port $server_port;
@@ -106,8 +105,8 @@ server {
         charset utf-8;
 
         proxy_redirect          off;
-        proxy_set_header        Host "{{ argocd_domain }}";
-        proxy_set_header        X-Real-IP $remote_addr;
+        proxy_set_header        Host             "{{ argocd_domain }}";
+        proxy_set_header        X-Real-IP        $remote_addr;
         proxy_set_header        X-Forwarded-For  $proxy_add_x_forwarded_for;
         proxy_set_header        X-Forwarded-Host $host;
         proxy_set_header        X-Forwarded-Port $server_port;
@@ -135,9 +134,9 @@ server {
         proxy_pass {{ grafana_url }};
         charset utf-8;
 
-        proxy_set_header        Host "{{ grafana_domain }}";
-        proxy_set_header        Origin http://{{ grafana_domain }};
-        proxy_set_header        X-Real-IP $remote_addr;
+        proxy_set_header        Host             "{{ grafana_domain }}";
+        proxy_set_header        Origin           http://{{ grafana_domain }};
+        proxy_set_header        X-Real-IP        $remote_addr;
         proxy_set_header        X-Forwarded-For  $proxy_add_x_forwarded_for;
         proxy_set_header        X-Forwarded-Host $host;
         proxy_set_header        X-Forwarded-Port $server_port;
@@ -156,12 +155,10 @@ server {
 
 {% if use_heimdall %}
 server {
-    listen                      {{ nginx_http_port }};
-    server_name                 {{ heimdall_domain_name }};
-    # server_name                 127.0.0.1;
+    listen                            {{ nginx_http_port }};
+    server_name                       {{ heimdall_domain_name }};
 
-    # proxy_set_header Host $http_host;
-    proxy_set_header Host $host;
+    proxy_set_header Host               $host;
     proxy_set_header X-Real-IP          $remote_addr;
     proxy_set_header X-Forwarded-Server $host;
     proxy_set_header X-Forwarded-For    $proxy_add_x_forwarded_for;
@@ -200,8 +197,7 @@ server {
     server_name                 {{ awx_domain_name }};
     # server_name                 127.0.0.1;
 
-    # proxy_set_header Host $http_host;
-    proxy_set_header Host $host;
+    proxy_set_header Host               $host;
     proxy_set_header X-Real-IP          $remote_addr;
     proxy_set_header X-Forwarded-For    $proxy_add_x_forwarded_for;
     proxy_set_header X-Forwarded-Server $host;
