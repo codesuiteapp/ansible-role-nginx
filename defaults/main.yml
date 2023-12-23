@@ -54,9 +54,13 @@ use_grafana: false
 grafana_url: "http://localhost:3000/grafana"
 grafana_domain: "grafana.sto-dev.koscom.co.kr"
 
+use_flame: true
+flame_url: "http://localhost:5005/"
+flame_domain_name: "home.sto-devops.koscom.co.kr"
+
 use_heimdall: true
 heimdall_url: "http://localhost:56780/"
-heimdall_domain_name: "home.sto-devops.koscom.co.kr"
+heimdall_domain_name: "home2.sto-devops.koscom.co.kr"
 
 use_jira: false
 jira_url: "http://localhost:8080/jira"
