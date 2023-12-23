@@ -27,7 +27,7 @@ upstream_servers:
 
 use_portainer: false
 portainer_url: "http://localhost:9000/portainer"
-portainer_domain: "portainer.sto-dev.koscom.co.kr"
+portainer_domain: "portainer.sto-devops.koscom.co.kr"
 
 use_jenkins: false
 jenkins_port: 9753
