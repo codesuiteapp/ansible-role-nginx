@@ -38,19 +38,6 @@ server {
         return 200 '{"status": "Healthy"}';
     }
 
-{% if use_biz_batch %}
-    location /stobatch {
-        proxy_pass              {{ biz_batch_url }};
-        charset                 utf-8;
-
-        proxy_set_header        Host              "{{ biz_batch_domain }}";
-        proxy_set_header        X-Real-IP         $remote_addr;
-        proxy_set_header        X-Forwarded-For   $proxy_add_x_forwarded_for;
-        proxy_set_header        X-Forwarded-Proto $scheme;
-        proxy_set_header        X-Forwarded-Port  $server_port;
-    }
-{% endif %}
-
 {% if use_jenkins %}
     location /jenkins {
         proxy_pass              {{ jenkins_url }};
@@ -248,17 +235,17 @@ server {
 }
 {% endif %}
 
-{% if use_heimdall %}
+{% if use_flame %}
 server {
     listen                            {{ nginx_http_port }};
-    server_name                       {{ heimdall_domain_name }};
+    server_name                       {{ flame_domain_name }};
 
     proxy_set_header Host               $host;
     proxy_set_header X-Real-IP          $remote_addr;
     proxy_set_header X-Forwarded-Server $host;
     proxy_set_header X-Forwarded-For    $proxy_add_x_forwarded_for;
 
-    access_log  /var/log/nginx/heimdall.access.log  main;
+    access_log  /var/log/nginx/flame.access.log  main;
 
     location /nginx_status {
         stub_status;
@@ -271,7 +258,7 @@ server {
     }
 
     location / {
-        proxy_pass              {{ heimdall_url }};
+        proxy_pass              {{ flame_url }};
         charset                 utf-8;
 
         proxy_set_header        X-Forwarded-Host  $host;
