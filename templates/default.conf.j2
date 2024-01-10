@@ -1,8 +1,8 @@
 {% if use_upstream %}
 upstream {{ upstream_name }} {
-    {% for server in upstream_servers %}
+{% for server in upstream_servers %}
     server {{ server }};
-    {% endfor %}
+{% endfor %}
 }
 {% endif %}
 
@@ -99,11 +99,13 @@ server {
         proxy_pass              {{ jira_url }};
         charset                 utf-8;
 
+#        proxy_redirect          {{ redirect_gitlab_url }} {{ redirect_gitlab_url }}:8443;
         proxy_set_header        Host             $host;
         proxy_set_header        X-Real-IP        $remote_addr;
         proxy_set_header        X-Forwarded-For  $proxy_add_x_forwarded_for;
         proxy_set_header        X-Forwarded-Host $host;
         proxy_set_header        X-Forwarded-Port {{ nginx_https_port if redirect_ssl else '$server_port' }};
+        client_max_body_size    10M;
     }
 {% endif %}
 
