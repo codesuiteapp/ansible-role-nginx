@@ -18,6 +18,9 @@ app_logs_dir: /log
 
 env: dev
 nginx_home: "{{ app_home_dir }}/nginx-docker"
+nginx_conf: "{{ nginx_home }}/conf"
+nginx_cert: "{{ nginx_home }}/cert"
+nginx_logs: "{{ app_logs_dir }}/nginx"
 
 nginx_http_port: 8080
 nginx_https_port: 8443
