@@ -11,6 +11,7 @@
     - "{{ nginx_home }}"
     - "{{ nginx_home }}/html"
     - "{{ nginx_logs }}"
+    - "{{ nginx_conf }}/sites-enabled"
 
 - name: Copy nginx conf
   ansible.builtin.copy:
