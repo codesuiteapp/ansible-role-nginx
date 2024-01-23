@@ -1,8 +1,8 @@
 version: "3"
 services:
-  nginx:
+  nginx-{{ env }}:
     image: ${DOCKER_IMAGE}
-    container_name: nginx
+    container_name: nginx-{{ env }}
     user: root
     environment:
       - TZ=Asia/Seoul
